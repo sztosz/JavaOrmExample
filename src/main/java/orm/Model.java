@@ -22,33 +22,34 @@ public class Model {
 
     private String table;
 
-    private HashMap<String, Object> fields = new HashMap<>();
+    private HashMap<Field, Object> fields = new HashMap<>();
 
 
     public Model(Object object) throws NoSuchFieldException, IllegalAccessException, URISyntaxException, SQLException {
         objClass = object.getClass();
-        table = objClass.getDeclaredField("table").get(object).toString();
+        Field tableField = objClass.getDeclaredField("table");
+        tableField.setAccessible(true);
+        table = (String) tableField.get(object);
         Field[] fields = objClass.getFields();
         for (Field field : fields) {
-            this.fields.put(field.toString(), field.getType());
+            this.fields.put(field, field.getType().getSimpleName());
         }
 
         connection = Connector.getInstance();
 
     }
 
-    public List<Object> get() {
+    public List<Object> sll() {
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM " + table);
             ArrayList<Object> result = new ArrayList<>();
             while (rs.next()) {
-                Object object = objClass.getConstructor();
+                Object object = objClass.newInstance();
                 this.fields.forEach((k, v) -> {
                     try {
-                        Method objMethod = objClass.getMethod("set" + k);
-                        Method rsMethod = rs.getClass().getMethod("get" + v);
-                        objMethod.invoke(object, rsMethod.invoke(rs));
+                        Method rsMethod = rs.getClass().getMethod("get" + v, k.getType());
+                        k.set(object, rsMethod.invoke(rs, k.getName()));
                     } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                         e.printStackTrace();
                     }
@@ -56,9 +57,11 @@ public class Model {
                 result.add(object);
             }
             return result;
-        } catch (SQLException | NoSuchMethodException e) {
+        } catch (SQLException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
             return new ArrayList<>();
         }
     }
 }
+// TODO: test it all
+// TODO: add relations

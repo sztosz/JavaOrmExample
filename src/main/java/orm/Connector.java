@@ -8,11 +8,11 @@ import java.sql.SQLException;
 /**
  * Created by Bartosz on 18.03.2016.
  */
-public class Connector {
+class Connector {
 
     private static Connection connection = null;
 
-    static Connection getConnection() {
+    private static Connection getConnection() {
         try {
             Class.forName("org.postgresql.Driver");
             String connectionString = "jdbc:postgresql://localhost:5432/transport_claims";
@@ -25,7 +25,7 @@ public class Connector {
         }
     }
 
-    public static Connection getInstance() throws URISyntaxException, SQLException {
+    static Connection getInstance() throws URISyntaxException, SQLException {
         if (connection == null) {
             connection = getConnection();
             return connection;

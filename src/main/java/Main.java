@@ -27,11 +27,9 @@ public class Main extends Application {
         /// TESTING ORM
         try {
             Status status = new Status();
-            List statuses = status.all();
-            for (Object st : statuses) {
-                Status sta = (Status) st;
-//                System.out.print(sta.name + "\n");
-                System.out.print(sta.id + " " + sta.name + "\n");
+            List<Status> statuses = status.all();
+            for (Status st : statuses) {
+                System.out.print(st.id + " " + st.name + "\n");
             }
 
         } catch (NoSuchFieldException | IllegalAccessException | URISyntaxException | SQLException e) {

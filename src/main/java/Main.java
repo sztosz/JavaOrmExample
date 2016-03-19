@@ -30,7 +30,8 @@ public class Main extends Application {
             List statuses = status.all();
             for (Object st : statuses) {
                 Status sta = (Status) st;
-                System.out.print(sta.name);
+//                System.out.print(sta.name + "\n");
+                System.out.print(sta.id + " " + sta.name + "\n");
             }
 
         } catch (NoSuchFieldException | IllegalAccessException | URISyntaxException | SQLException e) {

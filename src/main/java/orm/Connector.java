@@ -25,7 +25,7 @@ class Connector {
         }
     }
 
-    static Connection getInstance() throws URISyntaxException, SQLException {
+    static Connection getInstance() throws SQLException {
         if (connection == null) {
             connection = getConnection();
             return connection;

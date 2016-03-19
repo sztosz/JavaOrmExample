@@ -31,6 +31,8 @@ public class Main extends Application {
             for (Status st : statuses) {
                 System.out.print(st.id + " " + st.name + "\n");
             }
+            Status find_result = status.find(4);
+            System.out.print(find_result.id + " " + find_result.name + "\n");
 
         } catch (NoSuchFieldException | IllegalAccessException | URISyntaxException | SQLException e) {
             e.printStackTrace();

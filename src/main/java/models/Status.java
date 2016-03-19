@@ -23,4 +23,8 @@ public class Status {
     public List all() {
         return model.all();
     }
+
+    public Status find(Integer id){
+        return (Status)model.find(id);
+    }
 }

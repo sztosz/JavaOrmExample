@@ -10,11 +10,9 @@ import java.util.List;
 public class Model {
 
     private Class<?> modelClass;
-
-    private String table;
-
     private HashMap<Field, String> fields = new HashMap<>();
 
+    String table;
 
     public Model(Object modelObject) throws NoSuchFieldException, IllegalAccessException {
         modelClass = modelObject.getClass();
@@ -31,8 +29,8 @@ public class Model {
         return new Select(this).all(fields, modelClass);
     }
 
-    String getTable() {
-        return table;
+    public Object find(Integer id) {
+        return new Select(this).find(id, fields, modelClass);
     }
 
     private String getSimpleName(Field field) {
@@ -49,3 +47,4 @@ public class Model {
 }
 // TODO: test it all
 // TODO: add relations
+// TODO: Make model extendable, and make all model inherit it

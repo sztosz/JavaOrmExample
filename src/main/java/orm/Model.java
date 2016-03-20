@@ -28,6 +28,10 @@ public abstract class Model {
         return new Select(this).find(id, fields, this.getClass());
     }
 
+    public List<Object> where(HashMap<String, String> conditions) {
+        return new Select(this).where(conditions, fields, this.getClass());
+    }
+
     private String getSimpleName(Field field) {
         String name = field.getType().getSimpleName();
         switch (name) {
@@ -46,4 +50,3 @@ public abstract class Model {
 }
 // TODO: test it all
 // TODO: add relations
-// TODO: Make model extendable, and make all model inherit it

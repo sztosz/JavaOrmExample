@@ -5,15 +5,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import models.Status;
 
-import java.net.URISyntaxException;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
@@ -26,14 +24,26 @@ public class Main extends Application {
 
         /// TESTING ORM
 
-        List<Status> statuses = (List<Status>)(Object) new Status().all();
+        List<Status> statuses = (List<Status>) (Object) new Status().all();
         for (Status st : statuses) {
             System.out.print(st.id + " " + st.name + "\n");
         }
         Status find_result = (Status) new Status().find(4);
         System.out.print(find_result.id + " " + find_result.name + "\n");
 
+        List<Status> where_result = (List<Status>) (Object) new Status().where(new HashMap<String, String>() {{
+            put("name", "service");
+        }});
+        for (Status st : where_result) {
+            System.out.print(st.id + " " + st.name + "\n");
+        }
 
+        List<Status> where_result_1 = (List<Status>) (Object) new Status().where(new HashMap<String, String>() {{
+            put("id", "4");
+        }});
+        for (Status st : where_result_1) {
+            System.out.print(st.id + " " + st.name + "\n");
+        }
 
         /// TESTING ORM
 

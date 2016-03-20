@@ -7,30 +7,25 @@ import java.util.List;
 /**
  * Created by Bartosz on 18.03.2016.
  */
-public class Model {
+public abstract class Model {
 
-    private Class<?> modelClass;
     private HashMap<Field, String> fields = new HashMap<>();
 
-    String table;
+    protected String table;
 
-    public Model(Object modelObject) throws NoSuchFieldException, IllegalAccessException {
-        modelClass = modelObject.getClass();
-        Field tableField = modelClass.getDeclaredField("table");
-        tableField.setAccessible(true);
-        table = (String) tableField.get(modelObject);
-        Field[] fields = modelClass.getFields();
+    protected Model() {
+        Field[] fields = this.getClass().getFields();
         for (Field field : fields) {
             this.fields.put(field, getSimpleName(field));
         }
     }
 
     public List<Object> all() {
-        return new Select(this).all(fields, modelClass);
+        return new Select(this).all(fields, this.getClass());
     }
 
     public Object find(Integer id) {
-        return new Select(this).find(id, fields, modelClass);
+        return new Select(this).find(id, fields, this.getClass());
     }
 
     private String getSimpleName(Field field) {
@@ -43,6 +38,10 @@ public class Model {
                 break;
         }
         return name;
+    }
+
+    String getTable() {
+        return this.table;
     }
 }
 // TODO: test it all

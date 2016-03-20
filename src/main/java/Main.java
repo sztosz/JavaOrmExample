@@ -25,18 +25,15 @@ public class Main extends Application {
 //        launch(args);
 
         /// TESTING ORM
-        try {
-            Status status = new Status();
-            List<Status> statuses = status.all();
-            for (Status st : statuses) {
-                System.out.print(st.id + " " + st.name + "\n");
-            }
-            Status find_result = status.find(4);
-            System.out.print(find_result.id + " " + find_result.name + "\n");
 
-        } catch (NoSuchFieldException | IllegalAccessException | URISyntaxException | SQLException e) {
-            e.printStackTrace();
+        List<Status> statuses = (List<Status>)(Object) new Status().all();
+        for (Status st : statuses) {
+            System.out.print(st.id + " " + st.name + "\n");
         }
+        Status find_result = (Status) new Status().find(4);
+        System.out.print(find_result.id + " " + find_result.name + "\n");
+
+
 
         /// TESTING ORM
 

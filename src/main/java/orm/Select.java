@@ -21,7 +21,7 @@ class Select {
     List<Object> all(HashMap<Field, String> fields, Class<?> modelClass) {
         try {
             Statement st = Connector.getInstance().createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM " + model.table);
+            ResultSet rs = st.executeQuery("SELECT * FROM " + model.getTable());
             ArrayList<Object> result = new ArrayList<>();
             while (rs.next()) {
                 Object modelObject = modelClass.newInstance();
@@ -38,7 +38,7 @@ class Select {
     Object find(Integer id, HashMap<Field, String> fields, Class<?> modelClass){
         try {
             Statement st = Connector.getInstance().createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM " + model.table + " WHERE id=" + id + " LIMIT 1");
+            ResultSet rs = st.executeQuery("SELECT * FROM " + model.getTable() + " WHERE id=" + id + " LIMIT 1");
             if (rs.next()) {
                 Object modelObject = modelClass.newInstance();
                 resultToModelObject(fields, rs, modelObject);
